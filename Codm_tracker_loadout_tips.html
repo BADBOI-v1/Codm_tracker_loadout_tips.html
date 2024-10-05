@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CODM Tracker and Loadout Manager</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section { margin: 20px 0; }
+        .loadout-item, .headshot-item { margin: 5px 0; }
+        input { margin-right: 5px; }
+        h2 { color: #333; }
+        .tip { background: #f4f4f4; border-left: 4px solid #007bff; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<h1>CODM Headshot Tracker and Loadout Manager</h1>
+
+<div class="section">
+    <h2>Headshot Tracker</h2>
+    <input type="number" id="headshots" placeholder="Headshots" min="0" />
+    <button onclick="addHeadshot()">Add Headshot</button>
+    <div>
+        <h3>Total Headshots: <span id="totalHeadshots">0</span></h3>
+        <h3>Headshot Log:</h3>
+        <div id="headshotLog"></div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Loadout Manager</h2>
+    <input type="text" id="weapon" placeholder="Weapon Name" />
+    <input type="text" id="attachment" placeholder="Attachment" />
+    <button onclick="addLoadout()">Add Loadout</button>
+    <div>
+        <h3>Your Loadouts:</h3>
+        <div id="loadoutList"></div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Aiming Tips for Long Range</h2>
+    <div class="tip">
+        <h3>1. Use the Right Scope</h3>
+        <p>For long-range aiming, select a scope that fits your weapon's range and accuracy.</p>
+    </div>
+    <div class="tip">
+        <h3>2. Control Your Breathing</h3>
+        <p>Take a moment to control your breathing before firing to improve accuracy.</p>
+    </div>
+    <div class="tip">
+        <h3>3. Practice Leading Your Shots</h3>
+        <p>Anticipate the movement of your target. Aim ahead of moving enemies to land your shots.</p>
+    </div>
+    <div class="tip">
+        <h3>4. Utilize Cover</h3>
+        <p>Position yourself behind cover while aiming to minimize exposure.</p>
+    </div>
+    <div class="tip">
+        <h3>5. Experiment with Sensitivity Settings</h3>
+        <p>Adjust your sensitivity settings to find what allows for the best control when aiming.</p>
+    </div>
+</div>
+
+<script>
+    let totalHeadshots = 0;
+    const headshotLog = [];
+
+    function addHeadshot() {
+        const headshotCount = parseInt(document.getElementById('headshots').value);
+        if (!isNaN(headshotCount) && headshotCount >= 0) {
+            totalHeadshots += headshotCount;
+            headshotLog.push(`Added ${headshotCount} headshot(s)`);
+            document.getElementById('headshots').value = '';
+            displayHeadshots();
+        } else {
+            alert('Please enter a valid number of headshots.');
+        }
+    }
+
+    function displayHeadshots() {
+        document.getElementById('totalHeadshots').innerText = totalHeadshots;
+        const headshotLogDiv = document.getElementById('headshotLog');
+        headshotLogDiv.innerHTML = '';
+        headshotLog.forEach((log, index) => {
+            headshotLogDiv.innerHTML += `<div class="headshot-item">${log}</div>`;
+        });
+    }
+
+    const loadouts = [];
+
+    function addLoadout() {
+        const weapon = document.getElementById('weapon').value;
+        const attachment = document.getElementById('attachment').value;
+
+        if (weapon && attachment) {
+            loadouts.push({ weapon, attachment });
+            document.getElementById('weapon').value = '';
+            document.getElementById('attachment').value = '';
+            displayLoadouts();
+        } else {
+            alert('Please enter both weapon and attachment.');
+        }
+    }
+
+    function displayLoadouts() {
+        const loadoutList = document.getElementById('loadoutList');
+        loadoutList.innerHTML = '';
+
+        loadouts.forEach((loadout, index) => {
+            loadoutList.innerHTML += `<div class="loadout-item">Loadout ${index + 1}: ${loadout.weapon} with ${loadout.attachment}</div>`;
+        });
+    }
+</script>
+
+</body>
+</html>
